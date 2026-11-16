@@ -1,7 +1,10 @@
 [project]
 name = "owmp"
 version = "0.1.0"
-description = "Organization Work Management Platform for managing organizational work, employees, projects, tasks, attendance, communication, and documentation."
+description = """\
+  Organization Work Management Platform for managing organizational work, employees, projects, tasks, attendance, \
+  communication, and documentation.\
+  """
 readme = "README.md"
 license = { text = "MIT" }
 authors = [
