@@ -188,6 +188,9 @@
   .block {
     display: block;
   }
+  .contents {
+    display: contents;
+  }
   .inline {
     display: inline;
   }

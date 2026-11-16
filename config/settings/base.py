@@ -6,6 +6,7 @@ import ssl
 from pathlib import Path
 
 import environ
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # owmp/
@@ -29,8 +30,6 @@ TIME_ZONE = "UTC"
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "en-us"
 # https://docs.djangoproject.com/en/dev/ref/settings/#languages
-from django.utils.translation import gettext_lazy as _
-
 LANGUAGES = [
     ("en-us", _("English")),
     ("fr-fr", _("French")),
@@ -97,8 +96,6 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "owmp.users",
-    "owmp.internships",
-    # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -116,7 +113,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
-# Protected legacy views have no login interface until the custom auth flow is added.
+# Protected views redirect to the configured entry point until the authentication
+# interface is finalized.
 LOGIN_URL = "/"
 
 # PASSWORDS
@@ -235,7 +233,8 @@ EMAIL_TIMEOUT = 5
 # Django Admin URL.
 ADMIN_URL = "admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = ['"Penn Melvis" <inpace@hooyia.net>']
+ADMIN_EMAIL = env("DJANGO_ADMIN_EMAIL", default="")
+ADMINS = [("OWMP Administrator", ADMIN_EMAIL)] if ADMIN_EMAIL else []
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 # https://cookiecutter-django.readthedocs.io/en/latest/settings.html#other-environment-settings
@@ -321,12 +320,14 @@ REST_FRAMEWORK = {
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_URLS_REGEX = r"^/api/.*$"
+CORS_ALLOWED_ORIGINS = env.list("DJANGO_CORS_ALLOWED_ORIGINS", default=[])
+CSRF_TRUSTED_ORIGINS = env.list("DJANGO_CSRF_TRUSTED_ORIGINS", default=[])
 
 # By Default swagger ui is available only to admin user(s). You can change permission classes to change that
 # See more configuration options at https://drf-spectacular.readthedocs.io/en/latest/settings.html#settings
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Internship Management API",
-    "DESCRIPTION": "Documentation of API endpoints of Internship Management",
+    "TITLE": "OWMP API",
+    "DESCRIPTION": "Organization Work Management Platform API",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
     "SCHEMA_PATH_PREFIX": "/api/",

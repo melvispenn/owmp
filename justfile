@@ -1,4 +1,4 @@
-# Local development commands. Docker is intentionally not used for now.
+# Local development commands.
 
 default:
     @just --list
@@ -14,3 +14,9 @@ manage +args:
 
 pytest *args:
     @uv run pytest {{args}}
+
+docker-up:
+    @docker compose -f docker-compose.local.yml up --build
+
+docker-migrate:
+    @docker compose -f docker-compose.local.yml run --rm django python manage.py migrate

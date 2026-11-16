@@ -1,9 +1,9 @@
-.. Internship Management documentation master file, created by
+.. OWMP documentation master file.
    sphinx-quickstart.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Internship Management's documentation!
+Welcome to OWMP's documentation!
 ======================================================================
 
 .. toctree::

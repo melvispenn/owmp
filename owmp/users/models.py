@@ -11,9 +11,10 @@ from .managers import UserManager
 
 class User(AbstractUser):
     """
-    Default custom user model for Internship Management.
-    If adding fields that need to be filled at user signup,
-    check forms.SignupForm and forms.SocialSignupForms accordingly.
+    Default custom user model for OWMP.
+    Account provisioning and future organization-specific fields should be
+    defined only after the OWMP authentication and authorization requirements
+    are approved.
     """
 
     # First and last name do not cover name patterns around the globe

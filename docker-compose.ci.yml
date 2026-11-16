@@ -1,0 +1,30 @@
+services:
+  django:
+    env_file: []
+    environment:
+      # These values are disposable CI-only settings. This overlay must not be
+      # used with production Compose files or production infrastructure.
+      DATABASE_URL: postgresql://owmp_ci:owmp_ci_password@postgres:5432/owmp_ci
+      DJANGO_DEBUG: "true"
+      DJANGO_READ_DOT_ENV_FILE: "false"
+      DJANGO_SECRET_KEY: ci-only-secret-key-not-for-deployment
+      DJANGO_SETTINGS_MODULE: config.settings.test
+      REDIS_URL: redis://redis:6379/0
+      USE_DOCKER: "yes"
+
+  postgres:
+    env_file: []
+    environment:
+      # Disposable database credentials for the isolated CI service only.
+      POSTGRES_DB: owmp_ci
+      POSTGRES_PASSWORD: owmp_ci_password
+      POSTGRES_USER: owmp_ci
+
+  celeryworker:
+    env_file: []
+
+  celerybeat:
+    env_file: []
+
+  flower:
+    env_file: []

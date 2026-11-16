@@ -3,8 +3,16 @@ With these settings, tests run faster.
 """
 
 from .base import *  # noqa: F403
+from .base import DATABASES
 from .base import TEMPLATES
 from .base import env
+
+# Tests use SQLite by default for fast, self-contained unit tests. Set
+# DATABASE_URL explicitly when running PostgreSQL integration tests.
+DATABASES["default"] = env.db(
+    "DATABASE_URL",
+    default="sqlite:////tmp/owmp-test.sqlite3",
+)
 
 # GENERAL
 # ------------------------------------------------------------------------------

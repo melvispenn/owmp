@@ -8,12 +8,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>
       {% block title %}
-        Internship Management
+        OWMP
       {% endblock title %}
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description"
-          content="This is a platform whish will facilitate companies to supervise, manage and track interns progress. This will permit the supervisor to follow thier progress and attendance." />
+          content="Organization Work Management Platform for coordinating organizational work, people, projects, tasks and documentation." />
     <meta name="author" content="Penn Melvis" />
     <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
     {% block css %}
@@ -29,19 +29,13 @@
     {% block body %}
       <header class="site-header">
         <nav class="site-nav" aria-label="Main navigation">
-          <a class="brand" href="{% url 'home' %}">{% translate "Internship Management" %}</a>
+          <a class="brand" href="{% url 'home' %}">{% translate "OWMP" %}</a>
           <ul class="nav-links">
             <li>
               <a href="{% url 'home' %}">{% translate "Home" %}</a>
             </li>
             <li>
               <a href="{% url 'about' %}">{% translate "About" %}</a>
-            </li>
-            <li>
-              {% comment %} <a href="{% url 'signe up' %}">{% translate "sing up" %}</a> {% endcomment %}sing up
-            </li>
-            <li>
-              {% comment %} <a href="{% url 'log in' %}">{% translate "log in" %}</a> {% endcomment %}log in
             </li>
             {% if request.user.is_authenticated %}
               <li>

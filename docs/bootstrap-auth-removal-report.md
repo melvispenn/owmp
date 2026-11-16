@@ -1,4 +1,7 @@
-# Bootstrap and default authentication removal report
+# Historical authentication migration report
+
+> This document records an earlier migration step. It is historical context,
+> not a description of the current OWMP authentication architecture.
 
 ## Changes made
 

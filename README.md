@@ -1,7 +1,7 @@
 
 # OWMP
 
-This project is the OWMP platform for managing and tracking organisational work, with a focus on supervison and progress visibility.
+OWMP (Organization Work Management Platform) is a self-hosted foundation for coordinating organizational work, people, projects, tasks, attendance, communication and documentation.
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
@@ -14,15 +14,28 @@ Moved to [settings](https://cookiecutter-django.readthedocs.io/en/latest/1-getti
 
 ## Basic Commands
 
-### Setting Up Your Users
+### Local setup
 
-- To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+Install the locked Python and Node dependencies:
 
-- To create a **superuser account**, use this command:
+    uv sync
+    npm ci
+
+Copy `.env.example` to a local `.env` only when using the local Django settings directly. Docker Compose uses the ignored files under `.envs/.local/`; configure those files locally and never commit them.
+
+To start the local service stack:
+
+    docker compose -f docker-compose.local.yml up --build
+
+Apply migrations from another terminal:
+
+    docker compose -f docker-compose.local.yml run --rm django python manage.py migrate
+
+### Setting Up the Initial Administrator
+
+Public registration is not enabled. To create the initial administrator, use:
 
       uv run python manage.py createsuperuser
-
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
 ### Type checks
 
@@ -42,13 +55,17 @@ To run the tests, check your test coverage, and generate an HTML coverage report
 
     uv run pytest
 
-### Live reloading and Sass CSS compilation
+The default test settings use SQLite for self-contained unit tests. Set `DATABASE_URL` explicitly when running PostgreSQL integration tests.
 
-Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally.html#using-webpack-or-gulp).
+### Frontend assets
+
+Install Node dependencies with `npm ci`, then build CSS with:
+
+    npm run css:build
 
 ### Celery
 
-This app comes with Celery.
+Celery services are available for asynchronous work.
 
 To run a celery worker:
 

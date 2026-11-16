@@ -1,4 +1,4 @@
-=# InPACE Internship Management
+# OWMP — Organization Work Management Platform
 
 ## Project principles
 
@@ -16,7 +16,7 @@ For each feature: define the backend contract and validation, implement authoriz
 
 ## Design system
 
-The visual language is based on the supplied InPACE logo: navy '#0B2A6B', blue '#0E86E8', cyan '#11B9F2', green '#42C72A', and white/slate surfaces. The CSS exposes these as design tokens. Tailwind CSS should consume the same tokens when the frontend build pipeline is introduced.
+The visual language uses OWMP design tokens exposed by the project CSS. Tailwind CSS consumes the same tokens through the frontend build pipeline.
 
 ## Installation
 
@@ -60,6 +60,7 @@ Developers should ensure that translatable strings in templates and JavaScript a
 ```python
 from django.shortcuts import render
 from django.http import HttpResponse
+
 
 def my_view(request):
     try:
