@@ -1,3 +1,7 @@
+volumes:
+  owmp_ci_postgres_data: {}
+  owmp_ci_postgres_data_backups: {}
+
 services:
   django:
     env_file: []
@@ -9,11 +13,17 @@ services:
       DJANGO_READ_DOT_ENV_FILE: "false"
       DJANGO_SECRET_KEY: ci-only-secret-key-not-for-deployment
       DJANGO_SETTINGS_MODULE: config.settings.test
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: owmp_ci
       REDIS_URL: redis://redis:6379/0
       USE_DOCKER: "yes"
 
   postgres:
     env_file: []
+    volumes:
+      - owmp_ci_postgres_data:/var/lib/postgresql/18/docker
+      - owmp_ci_postgres_data_backups:/backups
     environment:
       # Disposable database credentials for the isolated CI service only.
       POSTGRES_DB: owmp_ci
