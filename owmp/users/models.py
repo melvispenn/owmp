@@ -2,9 +2,13 @@ from typing import ClassVar
 
 from django.contrib.auth.models import AbstractUser
 from django.db.models import CharField
+from django.db.models import CheckConstraint
 from django.db.models import EmailField
+from django.db.models import Q
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+
+from utils.enums import Classification
 
 from .managers import UserManager
 
@@ -22,14 +26,30 @@ class User(AbstractUser):
     first_name = None  # type: ignore[assignment]
     last_name = None  # type: ignore[assignment]
     email = EmailField(_("email address"), unique=True)
-    role = CharField(max_length=32, blank=True)
-    specialty = CharField(max_length=255, blank=True)
+    # NULL is deliberate: the initial Admin has no classification.
+    classification = CharField(  # noqa: DJ001
+        _("classification"),
+        max_length=16,
+        choices=Classification.choices,
+        null=True,
+        blank=True,
+        default=None,
+    )
     username = None  # type: ignore[assignment]
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects: ClassVar[UserManager] = UserManager()
+
+    class Meta(AbstractUser.Meta):
+        constraints = [
+            CheckConstraint(
+                condition=Q(classification__isnull=True)
+                | Q(classification__in=Classification.values),
+                name="users_user_classification_valid",
+            ),
+        ]
 
     def get_absolute_url(self) -> str:
         """Get URL for user's detail view.
